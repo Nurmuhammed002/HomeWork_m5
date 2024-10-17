@@ -1,10 +1,8 @@
 from rest_framework import generics
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
-from rest_framework import status
 from .models import Director, Movie, Review
 from .serializers import DirectorSerializer, MovieSerializer, ReviewSerializer
-
 
 class DirectorListView(generics.ListAPIView):
     queryset = Director.objects.all()
@@ -24,7 +22,6 @@ class DirectorCreateView(generics.CreateAPIView):
 class DirectorUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Director.objects.all()
     serializer_class = DirectorSerializer
-
 
 
 class MovieListView(generics.ListAPIView):
@@ -47,18 +44,20 @@ class MovieUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = MovieSerializer
 
 
-
 class ReviewListView(generics.ListAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
 
 class ReviewDetailView(generics.RetrieveAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
 
+
 class ReviewCreateView(generics.CreateAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
 
 class ReviewUpdateDeleteView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Review.objects.all()
