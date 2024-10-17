@@ -7,14 +7,14 @@ class DirectorSerializer(serializers.ModelSerializer):
         fields = '__all__'
 
 class MovieSerializer(serializers.ModelSerializer):
-    director = DirectorSerializer(read_only=True)
+    director = serializers.PrimaryKeyRelatedField(queryset=Director.objects.all())
 
     class Meta:
         model = Movie
         fields = '__all__'
 
 class ReviewSerializer(serializers.ModelSerializer):
-    movie = MovieSerializer(read_only=True)
+    movie = serializers.PrimaryKeyRelatedField(queryset=Movie.objects.all())
 
     class Meta:
         model = Review
