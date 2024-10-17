@@ -1,4 +1,6 @@
 from rest_framework import generics
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
 from .models import Director, Movie, Review
 from .serializers import DirectorSerializer, MovieSerializer, ReviewSerializer
 
@@ -31,4 +33,38 @@ class ReviewListView(generics.ListAPIView):
 class ReviewDetailView(generics.RetrieveAPIView):
     queryset = Review.objects.all()
     serializer_class = ReviewSerializer
+
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+@api_view(['GET'])
+def director_list_with_movies_count(request):
+    directors = Director.objects.all()
+    director_data = []
+
+    for director in directors:
+        director_data.append({
+            'name': director.name,
+            'movies_count': director.movies.count(),
+        })
+
+    return Response(director_data)
+
+
+@api_view(['GET'])
+def movie_list_with_reviews(request):
+    movies = Movie.objects.all()
+    movie_data = []
+
+    for movie in movies:
+        reviews = movie.reviews.all()
+        total_stars = sum([review.stars for review in reviews])
+        avg_rating = total_stars / reviews.count() if reviews.count() > 0 else 0
+        movie_data.append({
+            'title': movie.title,
+            'reviews': [review.text for review in reviews],
+            'average_rating': avg_rating,
+        })
+
+    return Response(movie_data)
 
