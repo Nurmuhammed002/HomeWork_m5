@@ -3,16 +3,12 @@ from django.contrib.auth.models import User
 from rest_framework.exceptions import ValidationError
 import random
 
-class UserCreateSerializer(serializers.Serializer):
-    username = serializers.CharField(max_length=150)
-    password = serializers.CharField()
-    email = serializers.EmailField()
+class UserCreateSerializer(serializers.ModelSerializer):
     confirmation_code = serializers.CharField(read_only=True)
 
-    def validate_username(self, username):
-        if User.objects.filter(username=username).exists():
-            raise ValidationError('User already exists!')
-        return username
+    class Meta:
+        model = User
+        fields = ['username', 'password', 'email', 'confirmation_code']
 
     def create(self, validated_data):
         user = User(
@@ -33,17 +29,9 @@ class ConfirmUserSerializer(serializers.Serializer):
     confirmation_code = serializers.CharField(max_length=6)
 
     def validate(self, attrs):
-        try:
-            user = User.objects.get(username=attrs['username'])
-            if user.confirmation_code != attrs['confirmation_code']:
-                raise ValidationError("Invalid confirmation code.")
-        except User.DoesNotExist:
+        user = User.objects.filter(username=attrs['username']).first()
+        if user is None:
             raise ValidationError("User does not exist.")
-
+        if user.confirmation_code != attrs['confirmation_code']:
+            raise ValidationError("Invalid confirmation code.")
         return attrs
-
-    def save(self):
-        user = User.objects.get(username=self.validated_data['username'])
-        user.is_active = True
-        user.confirmation_code = None
-        user.save()
