@@ -17,6 +17,6 @@ urlpatterns = [
     path('reviews/create/', views.ReviewCreateView.as_view(), name='review-create'),
     path('reviews/<int:pk>/update/', views.ReviewUpdateDeleteView.as_view(), name='review-update-delete'),
 
-    path('directors/movies/count/', views.director_list_with_movies_count, name='director-list-with-movies-count'),
-    path('movies/reviews/', views.movie_list_with_reviews, name='movie-list-with-reviews'),
+    path('directors/movies/count/', views.DirectorListWithMoviesCountView.as_view(), name='director-list-with-movies-count'),
+    path('movies/reviews/', views.MovieListWithReviewsView.as_view(), name='movie-list-with-reviews'),
 ]

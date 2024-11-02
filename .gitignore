@@ -246,6 +246,7 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+for my own happiness.py
 
 # Spyder project settings
 .spyderproject
