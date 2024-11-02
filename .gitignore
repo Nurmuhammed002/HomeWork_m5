@@ -246,6 +246,9 @@ venv/
 ENV/
 env.bak/
 venv.bak/
+db.json
+db.sqlite3
+.idea
 for my own happiness.py
 
 # Spyder project settings
