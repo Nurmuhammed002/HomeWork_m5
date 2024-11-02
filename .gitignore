@@ -249,6 +249,8 @@ venv.bak/
 db.json
 db.sqlite3
 .idea
+__pycache__
+media/
 for my own happiness.py
 
 # Spyder project settings
